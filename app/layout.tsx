@@ -37,6 +37,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+          verification: {
+      google: "vwtMlZit0PQL-9PSSMwodBQJAlmhb7c0LQ0NUtUjbpc"
+  }
+      </head>
       <body className={`${spaceGrotesk.variable} ${inter.variable} font-sans antialiased overflow-x-hidden`}>
         {children}
         <Analytics />
