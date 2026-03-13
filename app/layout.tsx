@@ -18,6 +18,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'ToolBox | Free Online Tools for Students',
   description: 'All-in-one free online tools for students. Text tools, image tools, calculators, and developer utilities - all free and instant.',
+  verification: {
+      google: "vwtMlZit0PQL-9PSSMwodBQJAlmhb7c0LQ0NUtUjbpc"
+  }
   keywords: ['free tools', 'online tools', 'student tools', 'text converter', 'image tools', 'calculator', 'developer tools'],
 }
 
