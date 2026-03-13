@@ -3,13 +3,13 @@ import { Space_Grotesk, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const spaceGrotesk = Space_Grotesk({ 
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: '--font-heading',
   display: 'swap',
 });
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ["latin"],
   variable: '--font-sans',
   display: 'swap',
@@ -18,9 +18,6 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'ToolBox | Free Online Tools for Students',
   description: 'All-in-one free online tools for students. Text tools, image tools, calculators, and developer utilities - all free and instant.',
-  verification: {
-      google: "vwtMlZit0PQL-9PSSMwodBQJAlmhb7c0LQ0NUtUjbpc"
-  }
   keywords: ['free tools', 'online tools', 'student tools', 'text converter', 'image tools', 'calculator', 'developer tools'],
 }
 
@@ -38,9 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-          verification: {
-      google: "vwtMlZit0PQL-9PSSMwodBQJAlmhb7c0LQ0NUtUjbpc"
-  }
+        <meta name="google-site-verification" content="vwtMlZit0PQL-9PssMwodBQJAImhb7c0LQ0NUtUjbpc" />
       </head>
       <body className={`${spaceGrotesk.variable} ${inter.variable} font-sans antialiased overflow-x-hidden`}>
         {children}
