@@ -71,6 +71,11 @@ import PdfCompressor from "@/components/tools/media/document/PdfCompressor"
 import ImageToPdf from "@/components/tools/media/document/ImageToPdf"
 import PdfToImage from "@/components/tools/media/document/PdfToImage"
 import PdfPageExtractor from "@/components/tools/media/document/PdfPageExtractor"
+import PdfRotator from "@/components/tools/media/document/PdfRotator"
+import PdfWatermark from "@/components/tools/media/document/PdfWatermark"
+import PdfImageExtractor from "@/components/tools/media/document/PdfImageExtractor"
+import PdfMetadataViewer from "@/components/tools/media/document/PdfMetadataViewer"
+import PdfProtect from "@/components/tools/media/document/PdfProtect"
 import GpaCalculator from "@/components/tools/calculators/GpaCalculator"
 import GradeCalculator from "@/components/tools/calculators/GradeCalculator"
 import GradientGenerator from "@/components/tools/design/GradientGenerator"
@@ -551,6 +556,41 @@ export const TOOLS: Record<string, ToolDefinition> = {
     description: "Selectively extract specific pages from a PDF document securely in your browser.",
     category: { name: "PDF Tools", slug: "pdf-tools", href: "/categories/pdf-tools" },
     Component: PdfPageExtractor,
+  },
+  "pdf-rotator": {
+    slug: "pdf-rotator",
+    title: "Rotate PDF",
+    description: "Rotate all or selected pages of a PDF by 90°, 180°, or 270° instantly.",
+    category: { name: "PDF Tools", slug: "pdf-tools", href: "/categories/pdf-tools" },
+    Component: PdfRotator,
+  },
+  "pdf-watermark": {
+    slug: "pdf-watermark",
+    title: "PDF Watermark",
+    description: "Add customizable text watermarks with adjustable opacity and positioning to any PDF.",
+    category: { name: "PDF Tools", slug: "pdf-tools", href: "/categories/pdf-tools" },
+    Component: PdfWatermark,
+  },
+  "pdf-image-extractor": {
+    slug: "pdf-image-extractor",
+    title: "Extract Images from PDF",
+    description: "Extract every page of a PDF as a high-quality PNG image and download as ZIP.",
+    category: { name: "PDF Tools", slug: "pdf-tools", href: "/categories/pdf-tools" },
+    Component: PdfImageExtractor,
+  },
+  "pdf-metadata-viewer": {
+    slug: "pdf-metadata-viewer",
+    title: "PDF Metadata Viewer",
+    description: "View detailed metadata including author, title, creation date, and page count of any PDF.",
+    category: { name: "PDF Tools", slug: "pdf-tools", href: "/categories/pdf-tools" },
+    Component: PdfMetadataViewer,
+  },
+  "pdf-protect": {
+    slug: "pdf-protect",
+    title: "Protect PDF",
+    description: "Add password encryption to your PDF or remove existing protection securely in-browser.",
+    category: { name: "PDF Tools", slug: "pdf-tools", href: "/categories/pdf-tools" },
+    Component: PdfProtect,
   },
   "gpa-calculator": {
     slug: "gpa-calculator",

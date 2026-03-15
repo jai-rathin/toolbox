@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
+import Script from "next/script";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -36,6 +37,20 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         <meta name="google-site-verification" content="vwtMlZit0PQL-9PssMwodBQJAImhb7c0LQ0NUtUjbpc" />
+
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-V6GNN6J96K"
+        />
+
+        <Script id="google-analytics">
+          {`
+           window.dataLayer = window.dataLayer || [];
+           function gtag(){dataLayer.push(arguments);}
+           gtag('js', new Date());
+           gtag('config', 'G-V6GNN6J96K');
+         `}
+        </Script>
       </head>
       <body className={`${spaceGrotesk.variable} ${inter.variable} font-sans antialiased overflow-x-hidden`}>
         {children}

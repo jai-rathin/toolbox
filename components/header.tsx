@@ -114,13 +114,15 @@ export function Header() {
 
           {/* CTA Button with enhanced effects */}
           <div className="hidden md:block">
-            <Button className="relative overflow-hidden bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white border-0 rounded-full px-6 group shadow-lg shadow-cyan-500/25 hover-lift btn-glow">
-              <span className="relative z-10 flex items-center gap-2">
-                Get Started
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </span>
-              {/* Shimmer effect */}
-              <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <Button asChild className="relative overflow-hidden bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white border-0 rounded-full px-6 group shadow-lg shadow-cyan-500/25 hover-lift btn-glow">
+              <Link href="/tools">
+                <span className="relative z-10 flex items-center gap-2">
+                  Get Started
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+                {/* Shimmer effect */}
+                <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              </Link>
             </Button>
           </div>
 
@@ -159,11 +161,13 @@ export function Header() {
               </Link>
             ))}
             <div className="pt-3 mt-3 border-t border-white/10">
-              <Button className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white border-0 rounded-xl py-3 hover:from-teal-600 hover:to-cyan-600">
-                <span className="flex items-center justify-center gap-2">
-                  Get Started
-                  <Sparkles className="w-4 h-4" />
-                </span>
+              <Button asChild className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white border-0 rounded-xl py-3 hover:from-teal-600 hover:to-cyan-600">
+                <Link href="/tools" onClick={() => setIsMobileMenuOpen(false)}>
+                  <span className="flex items-center justify-center gap-2">
+                    Get Started
+                    <Sparkles className="w-4 h-4" />
+                  </span>
+                </Link>
               </Button>
             </div>
           </div>

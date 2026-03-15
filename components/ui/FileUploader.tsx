@@ -9,6 +9,7 @@ interface FileUploaderProps {
   description?: string
   accept?: string
   icon?: React.ReactNode
+  multiple?: boolean
 }
 
 export function FileUploader({ 
@@ -16,14 +17,22 @@ export function FileUploader({
   disabled = false, 
   description = "Upload file",
   accept = "*/*",
-  icon = <Upload className="w-8 h-8" />
+  icon = <Upload className="w-8 h-8" />,
+  multiple = false
 }: FileUploaderProps) {
   const [isDragActive, setIsDragActive] = useState(false)
 
   const processFile = useCallback((file: File) => {
-    // Basic file validation can happen here or left to accept attr
     onUpload(file)
   }, [onUpload])
+
+  const processFiles = useCallback((files: FileList) => {
+    if (multiple) {
+      Array.from(files).forEach(f => processFile(f))
+    } else if (files.length > 0) {
+      processFile(files[0])
+    }
+  }, [multiple, processFile])
 
   const handleDragEnter = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -51,17 +60,19 @@ export function FileUploader({
 
     const files = e.dataTransfer.files
     if (files && files.length > 0) {
-      processFile(files[0])
+      processFiles(files)
     }
-  }, [disabled, processFile])
+  }, [disabled, processFiles])
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) return
     const files = e.target.files
     if (files && files.length > 0) {
-      processFile(files[0])
+      processFiles(files)
     }
-  }, [disabled, processFile])
+    // Reset input value so re-selecting same file works
+    e.target.value = ""
+  }, [disabled, processFiles])
 
   // Global paste handler
   useEffect(() => {
@@ -74,14 +85,14 @@ export function FileUploader({
         const file = items[i].getAsFile()
         if (file) {
           processFile(file)
-          break // Process only the first valid file
+          if (!multiple) break
         }
       }
     }
 
     document.addEventListener("paste", handlePaste)
     return () => document.removeEventListener("paste", handlePaste)
-  }, [disabled, processFile])
+  }, [disabled, processFile, multiple])
 
   return (
     <label
@@ -112,6 +123,7 @@ export function FileUploader({
         accept={accept} 
         onChange={handleFileChange} 
         disabled={disabled}
+        multiple={multiple}
       />
     </label>
   )

@@ -1,8 +1,10 @@
 import Link from "next/link"
-import { getToolDefinition } from "@/components/tools/registry"
+import { getToolDefinition, TOOLS } from "@/components/tools/registry"
 import { ToolLayout } from "@/components/tool-layout"
 import { Button } from "@/components/ui/button"
 import { Metadata } from "next"
+import { generateToolSEO, generateToolSchemas } from "@/lib/seo"
+import { getToolSEO } from "@/lib/seo-data"
 
 type PageProps = {
   params: Promise<{ tool: string }>
@@ -19,30 +21,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
-  const title = `${def.title} – Free Online Tool | ToolBox`
-  const description = def.description || `Use our free ${def.title.toLowerCase()} to quickly complete tasks directly in your browser. No installation required.`
-  const url = `https://toolbox.com/tools/${def.slug}`
-
-  return {
-    title,
-    description,
-    keywords: `${def.title.toLowerCase()}, online ${def.title.toLowerCase()}, free ${def.title.toLowerCase()}, toolbox tools, ${def.category.name.toLowerCase()}`,
-    alternates: {
-      canonical: url,
-    },
-    openGraph: {
-      title,
-      description,
-      url,
-      type: "website",
-      siteName: "ToolBox",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-    }
-  }
+  return generateToolSEO({
+    slug: def.slug,
+    title: def.title,
+    description: def.description,
+    categoryName: def.category.name,
+  })
 }
 
 function ToolNotFound({ slug }: { slug: string }) {
@@ -80,26 +64,40 @@ export default async function ToolPage({ params }: PageProps) {
 
   if (!def) return <ToolNotFound slug={tool} />
 
+  const seo = getToolSEO(def.slug, def.title, def.category.name)
+  const schemas = generateToolSchemas({
+    slug: def.slug,
+    title: def.title,
+    description: def.description,
+    categoryName: def.category.name,
+  })
+
+  // Get related tools with full data
+  const relatedTools = seo.relatedSlugs
+    .map((s) => TOOLS[s])
+    .filter(Boolean)
+    .slice(0, 5)
+
   return (
     <>
+      {/* JSON-LD: SoftwareApplication */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: def.title,
-            description: def.description,
-            applicationCategory: def.category.name,
-            operatingSystem: "Web",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD"
-            }
-          })
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.softwareApp) }}
       />
+      {/* JSON-LD: BreadcrumbList */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
+      />
+      {/* JSON-LD: FAQPage */}
+      {schemas.faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.faqSchema) }}
+        />
+      )}
+
       <ToolLayout
         title={def.title}
         description={def.description}
@@ -107,38 +105,102 @@ export default async function ToolPage({ params }: PageProps) {
         categoryHref={def.category.href}
       >
         <def.Component />
-        
+
+        {/* ─── SEO Content Section ─── */}
         <div className="mt-16 pt-12 border-t border-white/10 text-gray-300 space-y-12">
+          {/* About */}
           <section>
             <h2 className="text-2xl font-bold text-white mb-4">About {def.title}</h2>
-            <p className="leading-relaxed">
-              {def.description || `The ${def.title} tool provides a quick and free way to accomplish digital tasks within your browser. 
-              Designed for speed and simplicity, it requires no installation, extensions, or account creation.`}
-            </p>
+            <p className="leading-relaxed">{seo.metaDescription}</p>
           </section>
 
+          {/* How To Use */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">How to Use</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">How to Use {def.title}</h2>
             <ol className="list-decimal pl-5 space-y-3 leading-relaxed">
-              <li>Input exactly what you want to process into the main interface.</li>
-              <li>Wait for the tool to automatically execute securely within your browser's local memory.</li>
-              <li>Instantly review or copy the generated results from the output panel.</li>
+              {seo.howToSteps.map((step, i) => (
+                <li key={i}>{step}</li>
+              ))}
             </ol>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">Why Use This Tool?</h2>
-            <ul className="list-disc pl-5 space-y-3 leading-relaxed">
-              <li><strong>Lightning Fast:</strong> Executes almost instantly.</li>
-              <li><strong>Completely Free:</strong> Absolute zero paywalls or subscriptions.</li>
-              <li><strong>Secure Sandbox:</strong> Computations occur securely in your computer's browser, preventing external data logging.</li>
-            </ul>
-          </section>
+          {/* Features */}
+          {seo.features.length > 0 && (
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-4">Features</h2>
+              <ul className="list-disc pl-5 space-y-2 leading-relaxed">
+                {seo.features.map((f, i) => (
+                  <li key={i}>{f}</li>
+                ))}
+              </ul>
+            </section>
+          )}
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">Related Tools</h2>
-            <p className="leading-relaxed mb-4">Looking for something similar? Explore more utilities inside the <Link href={def.category.slug ? `/categories/${def.category.slug}` : def.category.href} className="text-cyan-400 hover:text-cyan-300 font-medium">{def.category.name}</Link> classification.</p>
-          </section>
+          {/* Why Use */}
+          {seo.whyUse.length > 0 && (
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-4">Why Use This Tool?</h2>
+              <ul className="list-disc pl-5 space-y-2 leading-relaxed">
+                {seo.whyUse.map((w, i) => (
+                  <li key={i}>{w}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* FAQ Accordion */}
+          {seo.faqs.length > 0 && (
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+              <div className="space-y-3">
+                {seo.faqs.map((faq, i) => (
+                  <details
+                    key={i}
+                    className="group bg-white/5 border border-white/10 rounded-xl overflow-hidden"
+                  >
+                    <summary className="px-5 py-4 cursor-pointer text-white font-medium hover:bg-white/5 transition-colors flex items-center justify-between">
+                      {faq.question}
+                      <span className="text-gray-500 group-open:rotate-180 transition-transform text-sm ml-4">▼</span>
+                    </summary>
+                    <div className="px-5 pb-4 text-gray-400 leading-relaxed">
+                      {faq.answer}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Related Tools (Internal Links) */}
+          {relatedTools.length > 0 && (
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-6">Related Tools</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {relatedTools.map((rt) => (
+                  <Link
+                    key={rt.slug}
+                    href={`/tools/${rt.slug}`}
+                    className="group p-4 bg-white/5 border border-white/10 rounded-xl hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-all"
+                  >
+                    <h3 className="font-semibold text-white group-hover:text-cyan-400 transition-colors mb-1">
+                      {rt.title}
+                    </h3>
+                    <p className="text-sm text-gray-400 line-clamp-2">{rt.description}</p>
+                  </Link>
+                ))}
+              </div>
+              <p className="mt-4 text-sm text-gray-500">
+                Explore more tools in the{" "}
+                <Link
+                  href={def.category.slug ? `/categories/${def.category.slug}` : def.category.href}
+                  className="text-cyan-400 hover:text-cyan-300 font-medium"
+                >
+                  {def.category.name}
+                </Link>{" "}
+                category.
+              </p>
+            </section>
+          )}
         </div>
       </ToolLayout>
     </>
