@@ -54,7 +54,6 @@ import UniversalImageConverter from "@/components/tools/image/UniversalImageConv
 import VideoCompressor from "@/components/tools/media/video/VideoCompressor"
 import VideoConverter from "@/components/tools/media/video/VideoConverter"
 import VideoTrimmer from "@/components/tools/media/video/VideoTrimmer"
-import VideoRotator from "@/components/tools/media/video/VideoRotator"
 import VideoToGif from "@/components/tools/media/video/VideoToGif"
 import VideoToAudio from "@/components/tools/media/audio/VideoToAudio"
 
@@ -75,7 +74,6 @@ import PdfRotator from "@/components/tools/media/document/PdfRotator"
 import PdfWatermark from "@/components/tools/media/document/PdfWatermark"
 import PdfImageExtractor from "@/components/tools/media/document/PdfImageExtractor"
 import PdfMetadataViewer from "@/components/tools/media/document/PdfMetadataViewer"
-import PdfProtect from "@/components/tools/media/document/PdfProtect"
 import GpaCalculator from "@/components/tools/calculators/GpaCalculator"
 import GradeCalculator from "@/components/tools/calculators/GradeCalculator"
 import GradientGenerator from "@/components/tools/design/GradientGenerator"
@@ -462,13 +460,6 @@ export const TOOLS: Record<string, ToolDefinition> = {
     category: { name: "Media Tools", slug: "media-tools", href: "/categories/media-tools" },
     Component: VideoTrimmer,
   },
-  "video-rotator": {
-    slug: "video-rotator",
-    title: "Video Rotator",
-    description: "Rotate video 90°, 180°, or 270° natively without data loss.",
-    category: { name: "Media Tools", slug: "media-tools", href: "/categories/media-tools" },
-    Component: VideoRotator,
-  },
   "video-to-gif": {
     slug: "video-to-gif",
     title: "Video to GIF",
@@ -584,13 +575,6 @@ export const TOOLS: Record<string, ToolDefinition> = {
     description: "View detailed metadata including author, title, creation date, and page count of any PDF.",
     category: { name: "PDF Tools", slug: "pdf-tools", href: "/categories/pdf-tools" },
     Component: PdfMetadataViewer,
-  },
-  "pdf-protect": {
-    slug: "pdf-protect",
-    title: "Protect PDF",
-    description: "Add password encryption to your PDF or remove existing protection securely in-browser.",
-    category: { name: "PDF Tools", slug: "pdf-tools", href: "/categories/pdf-tools" },
-    Component: PdfProtect,
   },
   "gpa-calculator": {
     slug: "gpa-calculator",

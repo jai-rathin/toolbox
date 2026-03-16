@@ -9,19 +9,19 @@ import { Copy, Wand2 } from "lucide-react"
 import { tryCopyToClipboard } from "@/components/tools/utils"
 
 const LOREM_SENTENCES = [
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-  "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  "Curabitur pretium tincidunt lacus.",
-  "Nulla gravida orci a odio.",
-  "Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.",
-  "Integer in mauris eu nibh euismod gravida.",
-  "Duis ac tellus et risus vulputate vehicula.",
-  "Donec lobortis risus a elit.",
-  "Etiam pellentesque aliquet tellus.",
-  "Phasellus pharetra nulla ac diam."
+  "The quick brown fox jumps over the lazy dog.",
+  "A journey of a thousand miles begins with a single step.",
+  "In the quiet of the morning, the forest whispers its ancient secrets.",
+  "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+  "The sunlight danced across the ripples of the clear blue lake.",
+  "Technology is best when it brings people together.",
+  "The only way to do great work is to love what you do.",
+  "Knowledge is power, but imagination is the key to the universe.",
+  "A small spark can ignite a massive forest of innovation.",
+  "The stars hung like diamonds in the velvet tapestry of the night sky.",
+  "Harmony exists when the mind and the heart beat as one.",
+  "Creativity is intelligence having fun.",
+  "Every mountain peak is within reach if you just keep climbing."
 ]
 
 export default function LoremIpsumGenerator() {

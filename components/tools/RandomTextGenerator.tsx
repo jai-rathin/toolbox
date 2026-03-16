@@ -8,14 +8,18 @@ import { Copy, RefreshCw } from "lucide-react"
 import { tryCopyToClipboard } from "@/components/tools/utils"
 
 const WORDS = [
-  "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit",
-  "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore",
-  "magna", "aliqua", "enim", "ad", "minim", "veniam", "quis", "nostrud", "exercitation",
-  "ullamco", "laboris", "nisi", "ut", "aliquip", "ex", "ea", "commodo", "consequat",
-  "duis", "aute", "irure", "dolor", "in", "reprehenderit", "in", "voluptate", "velit",
-  "esse", "cillum", "dolore", "eu", "fugiat", "nulla", "pariatur", "excepteur", "sint",
-  "occaecat", "cupidatat", "non", "proident", "sunt", "in", "culpa", "qui", "officia",
-  "deserunt", "mollit", "anim", "id", "est", "laborum"
+  "the", "quick", "brown", "fox", "jumps", "over", "lazy", "dog", "mountain", "river",
+  "forest", "summer", "winter", "morning", "evening", "sunlight", "moonlight", "starlight",
+  "ocean", "breeze", "whisper", "echo", "spirit", "journey", "adventure", "discovery",
+  "balance", "harmony", "silence", "energy", "vibration", "frequency", "dimension",
+  "knowledge", "wisdom", "insight", "philosophy", "science", "nature", "universe",
+  "galaxies", "nebula", "constellation", "evolution", "revolution", "transformation",
+  "creation", "imagination", "inspiration", "motivation", "determination", "resilience",
+  "courage", "strength", "peace", "freedom", "justice", "equality", "unity",
+  "experience", "memories", "dreams", "reality", "perspective", "connection",
+  "system", "logic", "module", "component", "interface", "protocol", "architecture",
+  "database", "network", "security", "encryption", "algorithm", "processing", "storage",
+  "cloud", "digital", "analog", "virtual", "synthetic", "organic", "metaphor", "symbol"
 ]
 
 function generateRandomText(wordCount: number) {
