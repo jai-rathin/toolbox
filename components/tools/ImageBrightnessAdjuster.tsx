@@ -6,55 +6,76 @@ import { Label } from "@/components/ui/label"
 import { Download, Sun, Moon, RefreshCw, Image as ImageIcon } from "lucide-react"
 import { FileUploader } from "@/components/ui/FileUploader"
 
+const MAX_CANVAS_DIMENSION = 2048;
+
 export default function ImageBrightnessAdjuster() {
   const [imageSrc, setImageSrc] = useState<string | null>(null)
   const [brightness, setBrightness] = useState(100) // 100% is normal
   const [contrast, setContrast] = useState(100)
+  const [isProcessing, setIsProcessing] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement | null>(null)
 
   const handleUpload = (file: File) => {
+    setIsProcessing(true)
     const reader = new FileReader()
     reader.onload = (event) => {
       const src = event.target?.result as string
-      setImageSrc(src)
-      setBrightness(100)
-      setContrast(100)
-      
       const img = new Image()
       img.onload = () => {
         imgRef.current = img
-        renderImage()
+        setImageSrc(src)
+        resetValues() // Reset sliders for new image
+        renderInitialImage(img)
+        setIsProcessing(false)
       }
       img.src = src
     }
     reader.readAsDataURL(file)
   }
 
-  const renderImage = () => {
-    if (!imgRef.current || !canvasRef.current) return
+  const renderInitialImage = (img: HTMLImageElement) => {
+    if (!canvasRef.current) return
     const canvas = canvasRef.current
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    const img = imgRef.current
-    canvas.width = img.width
-    canvas.height = img.height
+    let width = img.width
+    let height = img.height
+
+    // Scale down if exceeds MAX_CANVAS_DIMENSION to prevent mobile crashes
+    if (width > MAX_CANVAS_DIMENSION || height > MAX_CANVAS_DIMENSION) {
+      const ratio = Math.min(MAX_CANVAS_DIMENSION / width, MAX_CANVAS_DIMENSION / height)
+      width = Math.floor(width * ratio)
+      height = Math.floor(height * ratio)
+    }
+
+    canvas.width = width
+    canvas.height = height
     
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.filter = `brightness(${brightness}%) contrast(${contrast}%)`
-    ctx.drawImage(img, 0, 0)
+    ctx.clearRect(0, 0, width, height)
+    ctx.drawImage(img, 0, 0, width, height)
   }
 
-  useEffect(() => {
-    renderImage()
-  }, [brightness, contrast])
-
   function downloadImage() {
-    if (!canvasRef.current) return
+    if (!imgRef.current) return
+    
+    // Create a temporary canvas to apply the final filter to pixels
+    const tempCanvas = document.createElement("canvas")
+    const tempCtx = tempCanvas.getContext("2d")
+    if (!tempCtx) return
+
+    const img = imgRef.current
+    tempCanvas.width = img.width
+    tempCanvas.height = img.height
+
+    // Apply the current adjustments to the context before drawing
+    tempCtx.filter = `brightness(${brightness}%) contrast(${contrast}%)`
+    tempCtx.drawImage(img, 0, 0)
+
     const link = document.createElement("a")
-    link.download = `adjusted-image.png`
-    link.href = canvasRef.current.toDataURL("image/png", 1.0)
+    link.download = `adjusted-image-${Date.now()}.png`
+    link.href = tempCanvas.toDataURL("image/png", 1.0)
     link.click()
   }
 
@@ -64,17 +85,18 @@ export default function ImageBrightnessAdjuster() {
   }
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto">
+    <div className="space-y-8 max-w-6xl mx-auto px-4 md:px-0">
       {!imageSrc ? (
         <FileUploader 
           onUpload={handleUpload} 
-          description="Upload an image to adjust brightness and contrast" 
+          description="Upload an image to adjust brightness and contrast locally" 
           accept="image/*" 
           icon={<ImageIcon className="w-8 h-8" />} 
+          disabled={isProcessing}
         />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          <div className="md:col-span-4 space-y-6 p-6 bg-black/20 border border-white/10 rounded-3xl h-fit">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-4 space-y-6 p-6 glass border border-white/10 rounded-3xl h-fit lg:sticky lg:top-24">
             
             <div className="space-y-6 pt-2">
               <h3 className="font-semibold text-white flex items-center gap-2">
@@ -129,11 +151,17 @@ export default function ImageBrightnessAdjuster() {
             </div>
           </div>
 
-          <div className="md:col-span-8 flex flex-col items-center justify-center bg-black/20 border border-white/10 rounded-3xl p-4 min-h-[500px] overflow-hidden">
-             <div className="relative w-full h-[600px] flex items-center justify-center">
+          <div className="lg:col-span-8 flex flex-col items-center justify-center glass border border-white/10 rounded-3xl p-4 min-h-[400px] lg:min-h-[600px] overflow-hidden bg-black/40">
+             <div className="relative w-full h-full flex items-center justify-center overflow-auto max-h-[70vh] lg:max-h-[80vh]">
                 <canvas 
                   ref={canvasRef} 
-                  className="max-w-full max-h-full object-contain rounded-xl shadow-2xl transition-all duration-200 bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVQ4T2P8////fwY8gHGgHkUDGIa1YBg1gIiKBsKxBhFVSYy1YBg1gIiKBsKxBhEAhP1wIemq4iAAAAAASUVORK5CYII=')]"
+                  style={{ 
+                    filter: `brightness(${brightness}%) contrast(${contrast}%)`,
+                    maxWidth: '100%',
+                    height: 'auto',
+                    objectFit: 'contain'
+                  }}
+                  className="rounded-xl shadow-2xl transition-all duration-75 bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVQ4T2P8////fwY8gHGgHkUDGIa1YBg1gIiKBsKxBhFVSYy1YBg1gIiKBsKxBhEAhP1wIemq4iAAAAAASUVORK5CYII=')]"
                 />
              </div>
           </div>

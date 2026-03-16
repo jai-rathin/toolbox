@@ -119,9 +119,9 @@ export function CategorySection() {
           <span className="inline-block text-cyan-400 text-sm font-medium tracking-wider uppercase mb-4 animate-blur-in">
             Explore Categories
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl sm:text-5xl font-bold text-white mb-4 px-4 balance">
             Everything You Need,{" "}
-            <span className="text-gradient-animate">One Place</span>
+            <span className="text-gradient-animate text-3xl sm:text-5xl">One Place</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
             Browse through our comprehensive collection of tools organized by category. 
@@ -130,7 +130,7 @@ export function CategorySection() {
         </div>
 
         {/* Category Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {categories.map((category, index) => {
             const Icon = category.icon
             return (

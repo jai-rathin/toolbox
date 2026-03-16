@@ -48,7 +48,7 @@ export function ToolLayout({
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-3xl sm:text-4xl font-bold text-white">{title}</h1>
+                <h1 className="text-2xl sm:text-4xl font-bold text-white leading-tight">{title}</h1>
                 <span className="px-2 py-1 text-xs font-medium bg-green-500/20 text-green-400 rounded-full border border-green-500/30">
                   Free
                 </span>
@@ -79,7 +79,7 @@ export function ToolLayout({
           {/* Tool Content */}
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-teal-500/10 via-cyan-500/10 to-blue-500/10 rounded-3xl blur-3xl" />
-            <div className="relative glass-glow rounded-3xl p-6 sm:p-8">
+            <div className="relative glass-glow rounded-3xl p-4 sm:p-8">
               {children}
             </div>
           </div>

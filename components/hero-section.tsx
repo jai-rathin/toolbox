@@ -94,7 +94,7 @@ export function HeroSection() {
           </div>
           
           {/* Main Headline with Kinetic Typography */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight px-2">
             <span className="block text-white animate-slide-up-fade overflow-hidden">
               <span className="inline-block animate-blur-in">All-in-One Free</span>
             </span>
@@ -103,7 +103,7 @@ export function HeroSection() {
             </span>
             <span className="block text-white animate-slide-up-fade stagger-2">
               for{" "}
-              <span className="relative inline-block min-w-[200px] sm:min-w-[280px]">
+              <span className="relative inline-block min-w-[160px] sm:min-w-[280px]">
                 <span className="gradient-text">
                   {typedText}
                 </span>
@@ -114,7 +114,7 @@ export function HeroSection() {
           </h1>
           
           {/* Subtitle with stagger */}
-          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10 animate-slide-up-fade stagger-3">
+          <p className="text-base sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10 animate-slide-up-fade stagger-3 px-4">
             100+ powerful tools at your fingertips. Convert, calculate, create, and code - 
             all free, instant, and beautifully designed for the modern student.
           </p>
@@ -122,9 +122,9 @@ export function HeroSection() {
           {/* Search Bar with Glow & Spotlight */}
           <div 
             ref={searchRef}
-            className="relative max-w-2xl mx-auto mb-10 animate-slide-up-fade stagger-4 spotlight"
+            className="relative max-w-2xl mx-auto mb-10 animate-slide-up-fade stagger-4 spotlight px-4"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500 rounded-2xl blur-xl opacity-30 animate-pulse-glow" />
+            <div className="absolute inset-x-4 inset-y-0 bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500 rounded-2xl blur-xl opacity-30 animate-pulse-glow" />
             <form 
               onSubmit={(e) => {
                 e.preventDefault()
@@ -134,14 +134,14 @@ export function HeroSection() {
               }}
               className="relative glass-glow rounded-2xl p-2 hover-lift transition-all duration-300"
             >
-              <div className="flex items-center gap-3">
-                <Search className="w-5 h-5 text-cyan-400 ml-4 animate-bounce-subtle" />
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Search className="w-5 h-5 text-cyan-400 ml-2 sm:ml-4 animate-bounce-subtle shrink-0" />
                 <input
                   type="text"
-                  placeholder="Search for any tool... (e.g., word counter, image resize)"
+                  placeholder="Search tools... (word counter, resizer)"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 bg-transparent border-0 text-white placeholder:text-gray-500 focus:outline-none py-3"
+                  className="flex-1 bg-transparent border-0 text-white placeholder:text-gray-500 focus:outline-none py-3 text-sm sm:text-base min-w-0"
                 />
                 <Button type="submit" className="btn-glow bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white border-0 rounded-xl px-6 py-5 shadow-lg shadow-cyan-500/25 group">
                   <span className="hidden sm:inline mr-2">Search</span>

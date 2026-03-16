@@ -100,20 +100,20 @@ export function FileUploader({
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      className={`relative flex flex-col items-center justify-center w-full h-64 md:h-96 border-2 border-dashed rounded-3xl cursor-pointer transition-all overflow-hidden ${
+      className={`relative flex flex-col items-center justify-center w-full min-h-[16rem] md:min-h-[24rem] border-2 border-dashed rounded-3xl cursor-pointer transition-all overflow-hidden p-6 ${
         isDragActive 
           ? "border-purple-500 bg-purple-500/10 shadow-[0_0_20px_rgba(168,85,247,0.2)]" 
           : "border-white/20 bg-black/20 hover:bg-white/5 hover:border-purple-500/50"
       } ${disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}`}
     >
-      <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center z-10 p-4">
+      <div className="flex flex-col items-center justify-center text-center z-10 max-w-full">
         <div className={`p-4 rounded-full mb-4 transition-colors ${isDragActive ? 'bg-purple-500/20 text-purple-400' : 'bg-white/5 text-gray-400'}`}>
           {icon}
         </div>
-        <p className="mb-2 text-sm text-gray-300 md:text-base">
+        <p className="mb-2 text-sm text-gray-300 md:text-base px-2">
           <span className="font-semibold text-white">Click to upload</span>, drag and drop, or <span className="font-semibold text-white">paste</span>
         </p>
-        <p className="text-xs text-gray-500 font-medium tracking-wide max-w-sm px-4">
+        <p className="text-xs text-gray-500 font-medium tracking-wide max-w-sm px-4 balance">
           {description}
         </p>
       </div>

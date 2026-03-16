@@ -140,9 +140,9 @@ export function Header() {
 
         {/* Mobile Menu with animation */}
         <div className={`md:hidden overflow-hidden transition-all duration-500 ease-out ${
-          isMobileMenuOpen ? "max-h-80 mt-4 opacity-100" : "max-h-0 opacity-0"
+          isMobileMenuOpen ? "max-h-[80vh] mt-4 opacity-100 overflow-y-auto" : "max-h-0 opacity-0"
         }`}>
-          <div className="glass rounded-2xl p-4 space-y-1">
+          <div className="glass rounded-2xl p-2 sm:p-4 space-y-1">
             {navLinks.map((link, i) => (
               <Link
                 key={link.href}

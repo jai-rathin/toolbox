@@ -133,8 +133,8 @@ export function Footer() {
         </div>
 
         {/* Bottom section */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-gray-500 text-sm flex items-center gap-1">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-4 text-center sm:text-left">
+          <p className="text-gray-500 text-sm flex items-center justify-center sm:justify-start gap-1">
             &copy; {new Date().getFullYear()} ToolBox. Made with{" "}
             <Heart className="w-4 h-4 text-cyan-500 fill-cyan-500 inline animate-pulse" />{" "}
             for students.
