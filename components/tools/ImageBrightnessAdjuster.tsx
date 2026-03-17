@@ -26,7 +26,6 @@ export default function ImageBrightnessAdjuster() {
         imgRef.current = img
         setImageSrc(src)
         resetValues() // Reset sliders for new image
-        renderInitialImage(img)
         setIsProcessing(false)
       }
       img.src = src
@@ -56,6 +55,13 @@ export default function ImageBrightnessAdjuster() {
     ctx.clearRect(0, 0, width, height)
     ctx.drawImage(img, 0, 0, width, height)
   }
+
+  // Use an effect to draw the initial image once the canvas is rendered in the DOM
+  useEffect(() => {
+    if (imageSrc && imgRef.current && canvasRef.current) {
+      renderInitialImage(imgRef.current)
+    }
+  }, [imageSrc])
 
   function downloadImage() {
     if (!imgRef.current) return
